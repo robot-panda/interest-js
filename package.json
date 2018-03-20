@@ -1,0 +1,22 @@
+{
+  "name": "interest-js",
+  "version": "1.0.0",
+  "description": "An open-source SDK to use with interest",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/robot-panda/interest-js.git"
+  },
+  "keywords": [
+    "interest"
+  ],
+  "author": "RobotPanda",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/robot-panda/interest-js/issues"
+  },
+  "homepage": "https://github.com/robot-panda/interest-js#readme"
+}
