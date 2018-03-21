@@ -2,9 +2,11 @@
   "name": "interest-js",
   "version": "1.0.0",
   "description": "An open-source SDK to use with interest",
-  "main": "index.js",
+  "main": "dist/bundle.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "webpack": "./node_modules/.bin/webpack",
+    "server": "./node_modules/.bin/webpack-dev-server"
   },
   "repository": {
     "type": "git",
@@ -18,5 +20,12 @@
   "bugs": {
     "url": "https://github.com/robot-panda/interest-js/issues"
   },
-  "homepage": "https://github.com/robot-panda/interest-js#readme"
+  "homepage": "https://github.com/robot-panda/interest-js#readme",
+  "devDependencies": {
+    "axios": "^0.18.0",
+    "store": "^2.0.12",
+    "webpack": "^4.2.0",
+    "webpack-cli": "^2.0.12",
+    "webpack-dev-server": "^3.1.1"
+  }
 }
