@@ -3,8 +3,9 @@ var path = require('path')
 module.exports = {
   entry: './src/index.js',
   output: {
-    libraryTarget: 'this',
-    filename: 'bundle.js'
+    // libraryTarget: 'var',
+    filename: 'bundle.js',
+    library: 'Interest'
   },
   mode: 'development',
   resolve: {

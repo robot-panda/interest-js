@@ -40,7 +40,6 @@ InterestJs.lists.get('feature', 'list').then((list) => {
 /* @param feature String */
 /* @param list Object */
 InterestJs.lists.add('feature', {
-  feature: 'feature',
   name: 'list',
   metadata: {}
 }).then((lists) => {
@@ -68,7 +67,7 @@ InterestJs.lists.remove('feature', 'list').then((lists) => {
 // Interest ------------------------------------------------------------------->
 
 // verify interest in list
-/* @param feature String */
+/* @param list String */
 /* @param interest_id Number */
 InterestJs.interests.get('list', 123).then((insterest) => {
   console.log(insterest)

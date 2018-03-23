@@ -1,6 +1,6 @@
 export default (config, opts) => {
-  config.token = opts.token
-  config.store_id = opts.store_id
-  config.options = opts.options
+  config.user_options.token = opts.token
+  config.user_options.store_id = opts.store_id
+  config.user_options.options = opts.options
   return config
 }
