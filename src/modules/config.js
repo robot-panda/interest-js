@@ -9,9 +9,9 @@ export class Config {
       'development': {
         'app_timeout': 1000,
         'app_protocol': 'http',
-        'interestjs_base_path': '://localhost:3010',
-        'interestjs_interest_path': '/interest_dev/public/account_interests',
-        'interestjs_lists_path': '/interest_dev/public/account_interest_lists'
+        'interestjs_base_path': '://localhost:3000',
+        'interestjs_cusomer_path': '/api/v1/customers',
+        'interestjs_interest_path': '/api/v1/interests'
       }
     }
   }

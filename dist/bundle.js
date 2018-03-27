@@ -533,19 +533,19 @@ eval("var g;\r\n\r\n// This works in non-strict mode\r\ng = (function() {\r\n\tr
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _modules_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @modules/config */ \"./src/modules/config.js\");\n/* harmony import */ var _modules_init__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @modules/init */ \"./src/modules/init.js\");\n/* harmony import */ var _modules_customer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @modules/customer */ \"./src/modules/customer.js\");\n/* harmony import */ var _modules_list__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @modules/list */ \"./src/modules/list.js\");\n/* harmony import */ var _modules_interest__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @modules/interest */ \"./src/modules/interest.js\");\n\n\n\n\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (() => {\n  var CONFIG = new _modules_config__WEBPACK_IMPORTED_MODULE_0__[\"Config\"]({})\n  return {\n    init: opts => Object(_modules_init__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(CONFIG, opts),\n    customer: Object(_modules_customer__WEBPACK_IMPORTED_MODULE_2__[\"default\"])(CONFIG, {}),\n    lists: Object(_modules_list__WEBPACK_IMPORTED_MODULE_3__[\"default\"])(CONFIG, {}),\n    interests: Object(_modules_interest__WEBPACK_IMPORTED_MODULE_4__[\"default\"])(CONFIG, {})\n  }\n});\n\n\n//# sourceURL=webpack://Interest/./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _modules_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @modules/config */ \"./src/modules/config.js\");\n/* harmony import */ var _modules_init__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @modules/init */ \"./src/modules/init.js\");\n/* harmony import */ var _modules_customer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @modules/customer */ \"./src/modules/customer.js\");\n/* harmony import */ var _modules_interest__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @modules/interest */ \"./src/modules/interest.js\");\n\n\n\n// import ListModule from '@modules/list'\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (() => {\n  var CONFIG = new _modules_config__WEBPACK_IMPORTED_MODULE_0__[\"Config\"]({})\n  return {\n    init: opts => Object(_modules_init__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(CONFIG, opts),\n    customer: Object(_modules_customer__WEBPACK_IMPORTED_MODULE_2__[\"default\"])(CONFIG, {}),\n    // lists: ListModule(CONFIG, {}),\n    interests: Object(_modules_interest__WEBPACK_IMPORTED_MODULE_3__[\"default\"])(CONFIG, {})\n  }\n});\n\n\n//# sourceURL=webpack://Interest/./src/index.js?");
 
 /***/ }),
 
-/***/ "./src/models/facades/list.js":
-/*!************************************!*\
-  !*** ./src/models/facades/list.js ***!
-  \************************************/
+/***/ "./src/models/facades/interest.js":
+/*!****************************************!*\
+  !*** ./src/models/facades/interest.js ***!
+  \****************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var axios_lib_axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios/lib/axios */ \"./node_modules/axios/lib/axios.js\");\n/* harmony import */ var axios_lib_axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios_lib_axios__WEBPACK_IMPORTED_MODULE_0__);\n\n/* harmony default export */ __webpack_exports__[\"default\"] = ((config) => {\n  let app = config.app_options.development\n  let path = `${app.app_protocol}${app.interestjs_base_path}${app.interestjs_lists_path}`\n\n  return {\n    list: (feature) => {\n      return axios_lib_axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(`${path}?feature_id=$eq.${feature}`)\n    },\n    get: () => {},\n    add: (feature, list) => {\n      return axios_lib_axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(path, {\n        feature_id: feature,\n        name: list.name,\n        metadata: list.metadata\n      })\n    },\n    update: () => {},\n    remove: () => {}\n  }\n});\n\n\n//# sourceURL=webpack://Interest/./src/models/facades/list.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var axios_lib_axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios/lib/axios */ \"./node_modules/axios/lib/axios.js\");\n/* harmony import */ var axios_lib_axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios_lib_axios__WEBPACK_IMPORTED_MODULE_0__);\n\n/* harmony default export */ __webpack_exports__[\"default\"] = ((config) => {\n  let app = config.app_options.development\n  let path = `${app.app_protocol}${app.interestjs_base_path}${app.interestjs_interest_path}`\n\n  return {\n    list: (listId) => {\n      return axios_lib_axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(`${path}?account_list_id=$eq.${listId}`)\n    },\n    get_interest: (interestId) => {\n      return axios_lib_axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(`${path}/list?id=${interestId}`)\n    },\n    add_interest: (featureId, interest) => {\n      return axios_lib_axios__WEBPACK_IMPORTED_MODULE_0___default()({\n        method: 'post',\n        url: `${path}/add`,\n        data: {\n          feature_id: featureId,\n          account_customer_id: interest.account_customer_id,\n          entity_id: interest.entity_id,\n          metadata: interest.metadata\n        },\n        headers: {\n          'Content-Type': 'application/vnd.api+json',\n          'Accept': 'application/vnd.api+json'\n        }\n      })\n    },\n    update: (interestId, interest) => {\n      return axios_lib_axios__WEBPACK_IMPORTED_MODULE_0___default.a.put(`${path}/update`, {\n        id: interestId,\n        metadata: interest.metadata\n      })\n    },\n    remove: (interestId) => {\n      return axios_lib_axios__WEBPACK_IMPORTED_MODULE_0___default.a.delete(`${path}/remove?id=${interestId}`)\n    }\n  }\n});\n\n\n//# sourceURL=webpack://Interest/./src/models/facades/interest.js?");
 
 /***/ }),
 
@@ -557,7 +557,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var axio
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"Config\", function() { return Config; });\nclass Config {\n  constructor (config) {\n    this.user_options = {\n      'token': config.token,\n      'store_id': config.store_id,\n      'options': config.options\n    }\n    this.app_options = {\n      'development': {\n        'app_timeout': 1000,\n        'app_protocol': 'http',\n        'interestjs_base_path': '://localhost:3010',\n        'interestjs_interest_path': '/interest_dev/public/account_interests',\n        'interestjs_lists_path': '/interest_dev/public/account_interest_lists'\n      }\n    }\n  }\n}\n\n\n//# sourceURL=webpack://Interest/./src/modules/config.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"Config\", function() { return Config; });\nclass Config {\n  constructor (config) {\n    this.user_options = {\n      'token': config.token,\n      'store_id': config.store_id,\n      'options': config.options\n    }\n    this.app_options = {\n      'development': {\n        'app_timeout': 1000,\n        'app_protocol': 'http',\n        'interestjs_base_path': '://localhost:3000',\n        'interestjs_interest_path': '/api/v1/interests'\n      }\n    }\n  }\n}\n\n\n//# sourceURL=webpack://Interest/./src/modules/config.js?");
 
 /***/ }),
 
@@ -593,19 +593,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ 
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = ((config, opts) => {\n  return {\n    get: () => {},\n    add: () => {},\n    update: () => {},\n    list: () => {},\n    remove: () => {}\n  }\n});\n\n\n//# sourceURL=webpack://Interest/./src/modules/interest.js?");
-
-/***/ }),
-
-/***/ "./src/modules/list.js":
-/*!*****************************!*\
-  !*** ./src/modules/list.js ***!
-  \*****************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _facades_list__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @facades/list */ \"./src/models/facades/list.js\");\n\n/* harmony default export */ __webpack_exports__[\"default\"] = ((config, opts) => {\n  return {\n    list: (feature) => {\n      return Object(_facades_list__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(config).list(feature)\n    },\n    get: (feature, listName) => {\n      return Object(_facades_list__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(config).get(feature, listName)\n    },\n    add: (feature, list) => {\n      return Object(_facades_list__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(config).add(feature, list)\n    },\n    update: (feature, list) => {\n      return Object(_facades_list__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(config).update(feature, list)\n    },\n    remove: (feature, listName) => {\n      return Object(_facades_list__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(config).remove(feature, listName)\n    }\n  }\n});\n\n\n//# sourceURL=webpack://Interest/./src/modules/list.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _facades_interest__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @facades/interest */ \"./src/models/facades/interest.js\");\n\n/* harmony default export */ __webpack_exports__[\"default\"] = ((config, opts) => {\n  return {\n    list: (listID) => {\n      return Object(_facades_interest__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(config).list(listID)\n    },\n    get: (interestId) => {\n      return Object(_facades_interest__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(config).get_interest(interestId)\n    },\n    add: (featureId, interest) => {\n      return Object(_facades_interest__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(config).add_interest(featureId, interest)\n    },\n    update: (interestId, interest) => {\n      return Object(_facades_interest__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(config).update(interestId, interest)\n    },\n    remove: (interestId) => {\n      return Object(_facades_interest__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(config).remove(interestId)\n    }\n  }\n});\n\n\n//# sourceURL=webpack://Interest/./src/modules/interest.js?");
 
 /***/ })
 

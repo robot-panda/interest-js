@@ -4,17 +4,17 @@ export default (config, opts) => {
     list: (listID) => {
       return FacadeInterests(config).list(listID)
     },
-    get: (listID, interestId) => {
-      return FacadeInterests(config).get(listID, interestId)
+    get: (interestId) => {
+      return FacadeInterests(config).get_interest(interestId)
     },
-    add: (listID, interest) => {
-      return FacadeInterests(config).add(listID, interest)
+    add: (featureId, interest) => {
+      return FacadeInterests(config).add_interest(featureId, interest)
     },
-    update: (feature, list) => {
-      // return FacadeInterests(config).update(feature, list)
+    update: (interestId, interest) => {
+      return FacadeInterests(config).update(interestId, interest)
     },
-    remove: (feature, listName) => {
-      // return FacadeInterests(config).remove(feature, listName)
+    remove: (interestId) => {
+      return FacadeInterests(config).remove(interestId)
     }
   }
 }

@@ -7,17 +7,33 @@ export default (config) => {
     list: (listId) => {
       return axios.get(`${path}?account_list_id=$eq.${listId}`)
     },
-    get: (listId, interestId) => {
-      return axios.get(`${path}?account_list_id=$eq.${listId}&id=$eq.${interestId}`)
+    get_interest: (interestId) => {
+      return axios.get(`${path}/list?id=${interestId}`)
     },
-    add: (feature, list) => {
-      return axios.post(path, {
-        feature_id: feature,
-        name: list.name,
-        metadata: list.metadata
+    add_interest: (featureId, interest) => {
+      return axios({
+        method: 'post',
+        url: `${path}/add`,
+        data: {
+          feature_id: featureId,
+          account_customer_id: interest.account_customer_id,
+          entity_id: interest.entity_id,
+          metadata: interest.metadata
+        },
+        headers: {
+          'Content-Type': 'application/vnd.api+json',
+          'Accept': 'application/vnd.api+json'
+        }
       })
     },
-    update: () => {},
-    remove: () => {}
+    update: (interestId, interest) => {
+      return axios.put(`${path}/update`, {
+        id: interestId,
+        metadata: interest.metadata
+      })
+    },
+    remove: (interestId) => {
+      return axios.delete(`${path}/remove?id=${interestId}`)
+    }
   }
 }
