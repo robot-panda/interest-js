@@ -18,6 +18,9 @@ export default (config) => {
           feature_id: featureId,
           account_customer_id: interest.account_customer_id,
           entity_id: interest.entity_id,
+          entity_name: interest.entity_name,
+          entity_type: interest.entity_type,
+          entity_category: interest.entity_category,
           metadata: interest.metadata
         },
         headers: {
