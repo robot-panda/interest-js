@@ -7,6 +7,183 @@
   <title>Test Interest JS</title>
 </head>
 <body>
+  <style>
+    a {
+      text-decoration: none;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    li span {
+      font-weight: bold;
+    }
+    .buttons {
+      float: right;
+    }
+    .info {
+      border: 1px solid;
+      padding: 5px;
+      margin-top: 20px;
+      max-width: 200px;
+    }
+    .product_img {
+      background: lightgray;
+      padding: 50px 20px;
+      text-align: center;
+      display: block;
+      float: left;
+    }
+  </style>
+
+  <div class="buttons">
+    <button class="user">User</button>
+    <button class="anonymous">Anonymous</button>
+    <button class="logoff">log off</button>
+    <div class="info">
+      <ul>
+        <li>id: <span class="id"></span></li>
+        <li>name: <span class="customer"></span></li>
+        <li>email: <span class="email"></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <section class="product">
+    <header>
+      <h2>Nome do Produto de teste</h2>
+      <div class="rate">
+        <i class="fas fa-star" data-rate="1"></i>
+        <i class="fas fa-star" data-rate="2"></i>
+        <i class="fas fa-star" data-rate="3"></i>
+        <i class="fas fa-star" data-rate="4"></i>
+        <i class="far fa-star" data-rate="5"></i>
+      </div>
+    </header>
+    <span class="product_img">Foto do Produto</span>
+    <article class="product_info">
+      <div class="wishlist">
+        wishlist ::
+        <a href="#" class="remove" style="display:none;">
+          <i class="fas fa-heart"></i>
+        </a>
+        <a  href="#" class="add">
+          <i class="far fa-heart"></i>
+        </a>
+      </div>
+      <br>
+      <ul>
+        <li>R$ 99,09</li>
+        <li>categoria</li>
+      </ul>
+    </article>
+  </section>
+
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
   <script src="../dist/bundle.js"></script>
+  <script type="text/javascript">
+    var $ = window.jQuery
+    var customerObj = {}
+    var interestObj = {
+      entity_id: 122
+    }
+
+    // init interest
+    var interestjs = window.Interest.default()
+    interestjs.init({
+      account_id: 1,
+      token: 'asoidhasidhasoidhasoidhasodisad',
+      options: {}
+    })
+
+    // identify
+    function setCustomer (data) {
+      customerObj = data
+      $('.id').text(data.id || '-')
+      $('.customer').text(data.customer_name || '-')
+      $('.email').text(data.customer_email || '-')
+
+      getInteret(data.id)
+    }
+    $('.user').click((e) => {
+      interestjs.customer.unidentify()
+      interestjs.customer.identify({
+        customer_id: 54321,
+        customer_email: 'reanto@basico.com',
+        customer_name: 'Renato Alves'
+      }).then((customer) => {
+        setCustomer(customer)
+      })
+    })
+    $('.anonymous').click((e) => {
+      interestjs.customer.unidentify()
+      interestjs.customer.identify({
+        customer_id: '',
+        email: '',
+        name: ''
+      }).then((data) => {
+        setCustomer(data)
+      })
+    })
+    $('.logoff').click((e) => {
+      e.preventDefault()
+      interestjs.customer.unidentify()
+      setCustomer({})
+    })
+
+    let session = window.sessionStorage
+    if (session.getItem('InterestCustomer')) {
+      setCustomer(JSON.parse(session.getItem('InterestCustomer')))
+    }
+
+    // wishlist
+    function getInteret (customerId, entityId = interestObj.entity_id) {
+      interestjs.interests.list(customerId, entityId).then((result) => {
+        if (result.data.data.length > 0) {
+          console.log(result.data.data[0])
+          toggleAdd('add')
+          interestObj.id = result.data.data[0].id
+        } else {
+          toggleAdd('remove')
+        }
+      })
+    }
+    function toggleAdd (action) {
+      if (action === 'add') {
+        $('.add').hide()
+        $('.remove').show()
+      } else {
+        $('.add').show()
+        $('.remove').hide()
+      }
+    }
+    $('.add').click((e) => {
+      e.preventDefault()
+      interestjs.interests.add(1, {
+        account_customer_id: customerObj.id,
+        entity_id: interestObj.entity_id,
+        entity_type: 'product',
+        entity_name: 'teste',
+        metadata: {}
+      }).then((result) => {
+        console.log(result)
+        interestObj.id = result.data.data.id
+        toggleAdd('add')
+      })
+    })
+    $('.remove').click((e) => {
+      e.preventDefault()
+      console.log('remove id:', interestObj.id)
+      interestjs.interests.remove(interestObj.id).then((data) => {
+        console.log('remove', data)
+        toggleAdd('remove')
+      })
+    })
+
+    // rate
+
+  </script>
 </body>
 </html>

@@ -1,8 +1,8 @@
 import FacadeInterests from '@facades/interest'
 export default (config, opts) => {
   return {
-    list: (listID) => {
-      return FacadeInterests(config).list(listID)
+    list: (customerId, interestId = '') => {
+      return FacadeInterests(config).list_interests(customerId, interestId)
     },
     get: (interestId) => {
       return FacadeInterests(config).get_interest(interestId)

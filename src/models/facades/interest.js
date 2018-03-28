@@ -4,11 +4,11 @@ export default (config) => {
   let path = `${app.app_protocol}${app.interestjs_base_path}${app.interestjs_interest_path}`
 
   return {
-    list: (listId) => {
-      return axios.get(`${path}?account_list_id=$eq.${listId}`)
+    list_interests: (customerId, id) => {
+      return axios.get(`${path}/list?account_customer_id=${customerId}&entity_id=${id}`)
     },
-    get_interest: (interestId) => {
-      return axios.get(`${path}/list?id=${interestId}`)
+    get_interest: (id) => {
+      return axios.get(`${path}/list?entity_id=${id}`)
     },
     add_interest: (featureId, interest) => {
       return axios({

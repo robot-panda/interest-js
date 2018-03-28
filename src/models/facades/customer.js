@@ -5,7 +5,7 @@ export default (config) => {
 
   return {
     get_customer: (customerId) => {
-      return axios.get(`${path}/list?id=${customerId}`)
+      return axios.get(`${path}/list?customer_id=${customerId}`)
     },
     add_customer: (customer) => {
       return axios({

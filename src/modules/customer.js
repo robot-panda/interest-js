@@ -5,7 +5,9 @@ export default (config, opts) => {
   return {
     identify: (customer) => {
       if (session.getItem('InterestCustomer')) {
-        return Promise.resolve(JSON.parse(session.getItem('InterestCustomer')))
+        return new Promise((resolve, reject) => {
+          resolve(JSON.parse(session.getItem('InterestCustomer')))
+        })
       }
 
       let customerObj = {}
@@ -24,7 +26,7 @@ export default (config, opts) => {
             session.setItem('InterestCustomer', JSON.stringify(customerObj))
             return customerObj
           } else {
-            FacadeCustomer(config).add_customer(customer).then((ctm) => {
+            return FacadeCustomer(config).add_customer(customer).then((ctm) => {
               let customer = ctm.data.data
               customerObj = {
                 id: customer.id,
@@ -58,7 +60,7 @@ export default (config, opts) => {
     },
     unidentify: () => {
       return new Promise((resolve, reject) => {
-        session.remove('InterestCustomer')
+        session.removeItem('InterestCustomer')
         resolve({})
       })
     }
