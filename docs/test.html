@@ -82,7 +82,7 @@
 
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
   <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
-  <script src="../dist/bundle.js"></script>
+  <script src="http://localhost:8081/bundle.js"></script>
   <script type="text/javascript">
     var $ = window.jQuery
     var customerObj = {}
@@ -94,8 +94,10 @@
     var interestjs = window.Interest.default()
     interestjs.init({
       account_id: 1,
-      token: 'asoidhasidhasoidhasoidhasodisad',
+      token: '12937y2fiudgsoyt7832guifdsgs78fgewui',
       options: {}
+    }).then((config) => {
+      console.log('the config', config)
     })
 
     // identify
@@ -117,6 +119,8 @@
         setCustomer(customer)
       })
     })
+
+
     $('.anonymous').click((e) => {
       interestjs.customer.unidentify()
       interestjs.customer.identify({
@@ -127,6 +131,8 @@
         setCustomer(data)
       })
     })
+
+
     $('.logoff').click((e) => {
       e.preventDefault()
       interestjs.customer.unidentify()
@@ -150,6 +156,8 @@
         }
       })
     }
+
+
     function toggleAdd (action) {
       if (action === 'add') {
         $('.add').hide()
@@ -159,6 +167,8 @@
         $('.remove').hide()
       }
     }
+
+
     $('.add').click((e) => {
       e.preventDefault()
       interestjs.interests.add(1, {

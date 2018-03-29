@@ -14,8 +14,8 @@ export default (config) => {
         data: {
           account_id: config.user_options.account_id,
           customer_id: customer.customer_id,
-          customer_email: customer.email,
-          customer_name: customer.name
+          customer_email: customer.customer_email,
+          customer_name: customer.customer_name
         },
         headers: {
           'Content-Type': 'application/vnd.api+json',
