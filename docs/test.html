@@ -35,6 +35,27 @@
       display: block;
       float: left;
     }
+    .wish-list {
+      clear: both;
+      padding-top: 20px;
+    }
+    .rate li {
+      display: inline-block;
+    }
+    .rate li + li {
+      margin-left: 5px;
+    }
+    .rateit svg[data-prefix="fas"] {
+      display: none;
+    }
+    .rateit.hovered svg[data-prefix="fas"],
+    .rateit.rated svg[data-prefix="fas"] {
+      display: block;
+    }
+    .rateit.hovered svg[data-prefix="far"],
+    .rateit.rated svg[data-prefix="far"] {
+      display: none;
+    }
   </style>
 
   <div class="buttons">
@@ -43,9 +64,9 @@
     <button class="logoff">log off</button>
     <div class="info">
       <ul>
-        <li>id: <span class="id"></span></li>
-        <li>name: <span class="customer"></span></li>
-        <li>email: <span class="email"></span></li>
+        <li>id: <span class="id">-</span></li>
+        <li>name: <span class="customer">-</span></li>
+        <li>email: <span class="email">-</span></li>
       </ul>
     </div>
   </div>
@@ -53,13 +74,38 @@
   <section class="product">
     <header>
       <h2>Nome do Produto de teste</h2>
-      <div class="rate">
-        <i class="fas fa-star" data-rate="1"></i>
-        <i class="fas fa-star" data-rate="2"></i>
-        <i class="fas fa-star" data-rate="3"></i>
-        <i class="fas fa-star" data-rate="4"></i>
-        <i class="far fa-star" data-rate="5"></i>
-      </div>
+      <ul class="rate">
+        <li>
+          <a href="" class="rateit" data-rate="1">
+            <i class="fas fa-star"></i>
+            <i class="far fa-star"></i>
+          </a>
+        </li>
+        <li>
+          <a href="" class="rateit" data-rate="2">
+            <i class="fas fa-star"></i>
+            <i class="far fa-star"></i>
+          </a>
+        </li>
+        <li>
+          <a href="" class="rateit" data-rate="3">
+            <i class="fas fa-star"></i>
+            <i class="far fa-star"></i>
+          </a>
+        </li>
+        <li>
+          <a href="" class="rateit" data-rate="4">
+            <i class="fas fa-star"></i>
+            <i class="far fa-star"></i>
+          </a>
+        </li>
+        <li>
+          <a href="" class="rateit" data-rate="5">
+            <i class="fas fa-star"></i>
+            <i class="far fa-star"></i>
+          </a>
+        </li>
+      </ul>
     </header>
     <span class="product_img">Foto do Produto</span>
     <article class="product_info">
@@ -80,14 +126,24 @@
     </article>
   </section>
 
+  <section class="wish-list">
+    <h2>wishlist</h2>
+    <ul class="wishlist-list"></ul>
+  </section>
+
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
   <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
   <script src="../dist/bundle.js"></script>
   <script type="text/javascript">
+    // vars
     var $ = window.jQuery
     var customerObj = {}
     var interestObj = {
       entity_id: 122
+    }
+    var rateObj = {
+      id: 0,
+      value: 0
     }
 
     // init interest
@@ -105,7 +161,8 @@
       $('.customer').text(data.customer_name || '-')
       $('.email').text(data.customer_email || '-')
 
-      getInteret(data.id)
+      getInterest(data.id, interestObj.entity_id)
+      retrieveList()
     }
     $('.user').click((e) => {
       interestjs.customer.unidentify()
@@ -115,6 +172,7 @@
         customer_name: 'Renato Alves'
       }).then((customer) => {
         setCustomer(customer)
+        setRateClass(0, 'rated')
       })
     })
     $('.anonymous').click((e) => {
@@ -123,14 +181,18 @@
         customer_id: '',
         email: '',
         name: ''
-      }).then((data) => {
-        setCustomer(data)
+      }).then((customer) => {
+        setCustomer(customer)
+        setRateClass(0, 'rated')
+        retrieveList()
       })
     })
     $('.logoff').click((e) => {
       e.preventDefault()
       interestjs.customer.unidentify()
       setCustomer({})
+      setRateClass(0, 'rated')
+      retrieveList()
     })
 
     let session = window.sessionStorage
@@ -139,12 +201,42 @@
     }
 
     // wishlist
-    function getInteret (customerId, entityId = interestObj.entity_id) {
+    function retrieveList () {
+      $('.wishlist-list').html('')
+      if (customerObj.id) {
+        interestjs.interests.list(customerObj.id).then((result) => {
+          var interests = result.data.data
+          console.log(interests)
+          for (var i in interests) {
+            if (interests[i].feature_id === 1) {
+              var span = $('<span>').addClass('product_img').text(interests[i].entity_name || 'sem nome')
+              var ul = $('<ul>').html(`<li>${interests[i].entity_name}</li><li>R$ 99,09</li><li>categoria</li>`)
+              var article = $('<article>').addClass('product_info').append(ul)
+              var li = $('<li>').addClass('wishlist-item').append([span, article])
+              $('.wishlist-list').prepend(li)
+            }
+
+            if (interests[i].feature_id === 2) {
+              var amount = JSON.parse(interests[i].metadata).rate
+              rateObj.id = interests[i].id
+              rateObj.value = amount
+              setRateClass(amount, 'rated')
+            }
+          }
+        })
+      } else {
+        console.log('usuario não informado!')
+      }
+    }
+    function getInterest (customerId, entityId) {
       interestjs.interests.list(customerId, entityId).then((result) => {
+        console.log(result)
         if (result.data.data.length > 0) {
           console.log(result.data.data[0])
-          toggleAdd('add')
-          interestObj.id = result.data.data[0].id
+          if (result.data.data[0].feature_id === 1) {
+            toggleAdd('add')
+            interestObj.id = result.data.data[0].id
+          }
         } else {
           toggleAdd('remove')
         }
@@ -183,7 +275,52 @@
     })
 
     // rate
-
+    function setRateClass (amount, klass) {
+      $('.rateit').removeClass(klass)
+      for (var i = 0; i < amount; i++) {
+        $(`.rateit[data-rate="${i + 1}"]`).addClass(klass)
+      }
+    }
+    // rollover
+    $('.rateit').mouseover(function (e) {
+      var amount = $(this).data('rate')
+      $('.rateit').removeClass('hovered')
+      setRateClass(amount, 'hovered')
+    })
+    // rollout
+    $('.rateit').mouseout(function (e) {
+      $('.rateit').removeClass('hovered')
+    })
+    // rateit click
+    $('.rateit').click(function (e) {
+      e.preventDefault()
+      if (rateObj.value === 0) {
+        interestjs.interests.add(2, {
+          account_customer_id: customerObj.id,
+          entity_id: interestObj.entity_id,
+          entity_type: 'product',
+          entity_name: 'teste',
+          metadata: JSON.stringify({
+            rate: $(this).data('rate')
+          })
+        }).then((result) => {
+          var amount = result.data.data.metadata.rate
+          rateObj.id = result.data.data.id
+          rateObj.value = amount
+          setRateClass(amount, 'rated')
+        })
+      } else {
+        interestjs.interests.update(rateObj.id, {
+          metadata: JSON.stringify({
+            rate: $(this).data('rate')
+          })
+        }).then((result) => {
+          var amount = JSON.parse(result.data.data.metadata).rate
+          rateObj.value = amount
+          setRateClass(amount, 'rated')
+        })
+      }
+    })
   </script>
 </body>
 </html>
