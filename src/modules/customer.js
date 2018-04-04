@@ -11,8 +11,10 @@ export default (config, opts) => {
       }
 
       let customerObj = {}
+      // has customer
       if (customer.customer_id) {
         return FacadeCustomer(config).get_customer(customer.customer_id).then((ctm) => {
+          // customer exist
           if (ctm.data.data.length > 0) {
             let customer = ctm.data.data[0]
             customerObj = {
@@ -25,6 +27,8 @@ export default (config, opts) => {
             }
             session.setItem('InterestCustomer', JSON.stringify(customerObj))
             return customerObj
+
+          // new customer
           } else {
             return FacadeCustomer(config).add_customer(customer).then((ctm) => {
               let customer = ctm.data.data
@@ -41,18 +45,22 @@ export default (config, opts) => {
             })
           }
         })
+
+      // anonymous customer
       } else {
         return FacadeCustomer(config).add_customer({
           id: '',
           email: '',
           name: ''
         }).then((ctm) => {
+          if (ctm.data.errors) {
+            throw ctm.data.errors
+          }
           let customer = ctm.data.data
           customerObj = {
             id: customer.id,
             token: customer.token
           }
-
           session.setItem('InterestCustomer', JSON.stringify(customerObj))
           return customerObj
         })

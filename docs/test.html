@@ -133,7 +133,7 @@
 
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
   <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
-  <script src="../dist/bundle.js"></script>
+  <script src="http://localhost:8081/bundle.js"></script>
   <script type="text/javascript">
     // vars
     var $ = window.jQuery
@@ -149,9 +149,12 @@
     // init interest
     var interestjs = window.Interest.default()
     interestjs.init({
-      account_id: 1,
-      token: 'asoidhasidhasoidhasoidhasodisad',
+      // account_id: 1,
+      // token: 'asoidhasidhasoidhasoidhasodisad',
       options: {}
+    }).catch((e) => {
+      console.log(e.message)
+      console.log(e)
     })
 
     // identify
@@ -173,9 +176,10 @@
       }).then((customer) => {
         setCustomer(customer)
         setRateClass(0, 'rated')
+      }).catch((e) => {
+        console.log(e)
       })
     })
-
     $('.anonymous').click((e) => {
       interestjs.customer.unidentify()
       interestjs.customer.identify({
@@ -185,15 +189,18 @@
       }).then((customer) => {
         setCustomer(customer)
         setRateClass(0, 'rated')
+        toggleAdd('remove')
         retrieveList()
+      }).catch((e) => {
+        console.log(e)
       })
     })
-
     $('.logoff').click((e) => {
       e.preventDefault()
       interestjs.customer.unidentify()
       setCustomer({})
       setRateClass(0, 'rated')
+      toggleAdd('remove')
       retrieveList()
     })
 
@@ -232,19 +239,16 @@
     }
     function getInterest (customerId, entityId) {
       interestjs.interests.list(customerId, entityId).then((result) => {
-        console.log(result)
         if (result.data.data.length > 0) {
-          console.log(result.data.data[0])
-          if (result.data.data[0].feature_id === 1) {
-            toggleAdd('add')
-            interestObj.id = result.data.data[0].id
+          for (var i in result.data.data) {
+            if (result.data.data[i].feature_id === 1) {
+              toggleAdd('add')
+              interestObj.id = result.data.data[0].id
+            }
           }
-        } else {
-          toggleAdd('remove')
         }
       })
     }
-
     function toggleAdd (action) {
       if (action === 'add') {
         $('.add').hide()
@@ -257,7 +261,7 @@
 
     $('.add').click((e) => {
       e.preventDefault()
-      interestjs.interests.add(1, {
+      interestjs.interests.add('wishlist', {
         account_customer_id: customerObj.id,
         entity_id: interestObj.entity_id,
         entity_type: 'product',
@@ -267,6 +271,8 @@
         console.log(result)
         interestObj.id = result.data.data.id
         toggleAdd('add')
+      }).catch((e) => {
+        console.log(e)
       })
     })
     $('.remove').click((e) => {
@@ -275,6 +281,8 @@
       interestjs.interests.remove(interestObj.id).then((data) => {
         console.log('remove', data)
         toggleAdd('remove')
+      }).catch((e) => {
+        console.log(e)
       })
     })
 
@@ -299,7 +307,7 @@
     $('.rateit').click(function (e) {
       e.preventDefault()
       if (rateObj.value === 0) {
-        interestjs.interests.add(2, {
+        interestjs.interests.add('rate', {
           account_customer_id: customerObj.id,
           entity_id: interestObj.entity_id,
           entity_type: 'product',
@@ -312,6 +320,8 @@
           rateObj.id = result.data.data.id
           rateObj.value = amount
           setRateClass(amount, 'rated')
+        }).catch((e) => {
+          console.log(e)
         })
       } else {
         interestjs.interests.update(rateObj.id, {
@@ -322,6 +332,8 @@
           var amount = JSON.parse(result.data.data.metadata).rate
           rateObj.value = amount
           setRateClass(amount, 'rated')
+        }).catch((e) => {
+          console.log(e)
         })
       }
     })

@@ -13,9 +13,6 @@ export default (config, opts) => {
     config.user_options.token = acc.token
     config.user_options.account_id = acc.id
     config.user_options.metadata = acc.metadata
-
     return config
-  }).catch((e) => {
-    console.log(e)
   })
 }

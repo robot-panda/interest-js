@@ -10,12 +10,12 @@ export default (config) => {
     get_interest: (id) => {
       return axios.get(`${path}/list?entity_id=${id}`)
     },
-    add_interest: (featureId, interest) => {
+    add_interest: (featureName, interest) => {
       return axios({
         method: 'post',
         url: `${path}/add`,
         data: {
-          feature_id: featureId,
+          feature_name: featureName,
           account_customer_id: interest.account_customer_id,
           entity_id: interest.entity_id,
           entity_name: interest.entity_name,
