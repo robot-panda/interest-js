@@ -5,16 +5,17 @@ export default (config) => {
 
   return {
     list_interests: (customerId, id) => {
-      return axios.get(`${path}/list?account_customer_id=${customerId}&entity_id=${id}`)
+      return axios.get(`${path}/list?token=${config.user_options.token}&account_customer_id=${customerId}&entity_id=${id}`)
     },
     get_interest: (id) => {
-      return axios.get(`${path}/list?entity_id=${id}`)
+      return axios.get(`${path}/list?token=${config.user_options.token}&entity_id=${id}`)
     },
     add_interest: (featureName, interest) => {
       return axios({
         method: 'post',
         url: `${path}/add`,
         data: {
+          token: config.user_options.token,
           feature_name: featureName,
           account_customer_id: interest.account_customer_id,
           entity_id: interest.entity_id,
@@ -31,12 +32,13 @@ export default (config) => {
     },
     update: (interestId, interest) => {
       return axios.put(`${path}/update`, {
+        token: config.user_options.token,
         id: interestId,
         metadata: interest.metadata
       })
     },
     remove: (interestId) => {
-      return axios.delete(`${path}/remove?id=${interestId}`)
+      return axios.delete(`${path}/remove?token=${config.user_options.token}&id=${interestId}`)
     }
   }
 }

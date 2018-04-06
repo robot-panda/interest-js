@@ -149,16 +149,21 @@
     // init interest
     var interestjs = window.Interest.default()
     interestjs.init({
-      // account_id: 1,
-      // token: 'asoidhasidhasoidhasoidhasodisad',
+      account_id: 1,
+      token: 'asoidhasidhasoidhasoidhasodisad',
       options: {}
+    }).then(() => {
+      let session = window.sessionStorage
+      if (session.getItem('InterestCustomer')) {
+        setCustomer(JSON.parse(session.getItem('InterestCustomer')))
+      }
     }).catch((e) => {
-      console.log(e.message)
       console.log(e)
     })
 
     // identify
     function setCustomer (data) {
+      console.log(data)
       customerObj = data
       $('.id').text(data.id || '-')
       $('.customer').text(data.customer_name || '-')
@@ -187,6 +192,7 @@
         email: '',
         name: ''
       }).then((customer) => {
+        console.log(customer)
         setCustomer(customer)
         setRateClass(0, 'rated')
         toggleAdd('remove')
@@ -198,16 +204,11 @@
     $('.logoff').click((e) => {
       e.preventDefault()
       interestjs.customer.unidentify()
-      setCustomer({})
+      tomer({})
       setRateClass(0, 'rated')
       toggleAdd('remove')
       retrieveList()
     })
-
-    let session = window.sessionStorage
-    if (session.getItem('InterestCustomer')) {
-      setCustomer(JSON.parse(session.getItem('InterestCustomer')))
-    }
 
     // wishlist
     function retrieveList () {
@@ -316,8 +317,8 @@
             rate: $(this).data('rate')
           })
         }).then((result) => {
-          var amount = result.data.data.metadata.rate
-          rateObj.id = result.data.data.id
+          var amount = result.data.data[0].metadata.rate
+          rateObj.id = result.data.data[0].id
           rateObj.value = amount
           setRateClass(amount, 'rated')
         }).catch((e) => {
@@ -329,7 +330,7 @@
             rate: $(this).data('rate')
           })
         }).then((result) => {
-          var amount = JSON.parse(result.data.data.metadata).rate
+          var amount = JSON.parse(result.data.data[0].metadata).rate
           rateObj.value = amount
           setRateClass(amount, 'rated')
         }).catch((e) => {

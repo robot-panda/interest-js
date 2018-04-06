@@ -5,14 +5,14 @@ export default (config) => {
 
   return {
     get_customer: (customerId) => {
-      return axios.get(`${path}/list?customer_id=${customerId}`)
+      return axios.get(`${path}/list?customer_id=${customerId}&token=${config.user_options.token}`)
     },
     add_customer: (customer) => {
       return axios({
         method: 'post',
         url: `${path}/add`,
         data: {
-          account_id: config.user_options.account_id,
+          token: config.user_options.token,
           customer_id: customer.customer_id,
           customer_email: customer.customer_email,
           customer_name: customer.customer_name
@@ -25,12 +25,13 @@ export default (config) => {
     },
     update: (customerId, customer) => {
       return axios.put(`${path}/update`, {
+        token: config.user_options.token,
         id: customerId,
         metadata: customer.metadata
       })
     },
     remove: (customerId) => {
-      return axios.delete(`${path}/remove?id=${customerId}`)
+      return axios.delete(`${path}/remove?id=${customerId}&token=${config.user_options.token}`)
     }
   }
 }

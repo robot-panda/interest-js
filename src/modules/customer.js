@@ -14,6 +14,10 @@ export default (config, opts) => {
       // has customer
       if (customer.customer_id) {
         return FacadeCustomer(config).get_customer(customer.customer_id).then((ctm) => {
+          if (ctm.data.errors) {
+            return ctm.data.errors
+          }
+
           // customer exist
           if (ctm.data.data.length > 0) {
             let customer = ctm.data.data[0]
@@ -31,7 +35,7 @@ export default (config, opts) => {
           // new customer
           } else {
             return FacadeCustomer(config).add_customer(customer).then((ctm) => {
-              let customer = ctm.data.data
+              let customer = ctm.data.data[0]
               customerObj = {
                 id: customer.id,
                 token: customer.token,
@@ -56,7 +60,7 @@ export default (config, opts) => {
           if (ctm.data.errors) {
             throw ctm.data.errors
           }
-          let customer = ctm.data.data
+          let customer = ctm.data.data[0]
           customerObj = {
             id: customer.id,
             token: customer.token
