@@ -1,5 +1,5 @@
 {
-  "name": "interest-js",
+  "name": "monolythic-sdk-js",
   "version": "1.0.0",
   "description": "An open-source SDK to use with interest",
   "main": "dist/bundle.js",
@@ -13,7 +13,8 @@
     "url": "git+https://github.com/robot-panda/interest-js.git"
   },
   "keywords": [
-    "interest"
+    "interest",
+    "wishlist"
   ],
   "author": "RobotPanda",
   "license": "ISC",
