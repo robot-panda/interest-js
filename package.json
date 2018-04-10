@@ -1,8 +1,8 @@
 {
   "name": "monolythic-sdk-js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An open-source SDK to use with interest",
-  "main": "dist/bundle.js",
+  "main": "dist/monolythic.commonjs2.node.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpack": "./node_modules/.bin/webpack",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/robot-panda/interest-js.git"
+    "url": "git+https://github.com/robot-panda/monolythic-sdk-js.git"
   },
   "keywords": [
     "interest",
@@ -19,9 +19,9 @@
   "author": "RobotPanda",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/robot-panda/interest-js/issues"
+    "url": "https://github.com/robot-panda/monolythic-sdk-js/issues"
   },
-  "homepage": "https://github.com/robot-panda/interest-js#readme",
+  "homepage": "https://github.com/robot-panda/monolythic-sdk-js#readme",
   "devDependencies": {
     "axios": "^0.18.0",
     "store": "^2.0.12",

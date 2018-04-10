@@ -133,7 +133,7 @@
 
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
   <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
-  <script src="http://localhost:8080/bundle.js"></script>
+  <script src="http://localhost:8080/dist/monolythic.var.js"></script>
   <script type="text/javascript">
     // vars
     var $ = window.jQuery
@@ -147,8 +147,8 @@
     }
 
     // init interest
-    var interestjs = window.Interest.default()
-    interestjs.init({
+    var monolythic = window.monolythic.default()
+    monolythic.init({
       account_id: 1,
       token: 'asoidhasidhasoidhasoidhasodisad',
       options: {}
@@ -173,8 +173,8 @@
       retrieveList()
     }
     $('.user').click((e) => {
-      interestjs.customer.unidentify()
-      interestjs.customer.identify({
+      monolythic.customer.unidentify()
+      monolythic.customer.identify({
         customer_id: 54321,
         customer_email: 'reanto@basico.com',
         customer_name: 'Renato Alves'
@@ -186,8 +186,8 @@
       })
     })
     $('.anonymous').click((e) => {
-      interestjs.customer.unidentify()
-      interestjs.customer.identify({
+      monolythic.customer.unidentify()
+      monolythic.customer.identify({
         customer_id: '',
         email: '',
         name: ''
@@ -203,7 +203,7 @@
     })
     $('.logoff').click((e) => {
       e.preventDefault()
-      interestjs.customer.unidentify()
+      monolythic.customer.unidentify()
       setCustomer({})
       setRateClass(0, 'rated')
       toggleAdd('remove')
@@ -214,7 +214,7 @@
     function retrieveList () {
       $('.wishlist-list').html('')
       if (customerObj.id) {
-        interestjs.interests.list(customerObj.id).then((result) => {
+        monolythic.interests.list(customerObj.id).then((result) => {
           var interests = result.data.data
           console.log(interests)
           for (var i in interests) {
@@ -239,7 +239,7 @@
       }
     }
     function getInterest (customerId, entityId) {
-      interestjs.interests.list(customerId, entityId).then((result) => {
+      monolythic.interests.list(customerId, entityId).then((result) => {
         if (result.data.data.length > 0) {
           for (var i in result.data.data) {
             if (result.data.data[i].feature_id === 1) {
@@ -262,7 +262,7 @@
 
     $('.add').click((e) => {
       e.preventDefault()
-      interestjs.interests.add('wishlist', {
+      monolythic.interests.add('wishlist', {
         account_customer_id: customerObj.id,
         entity_id: interestObj.entity_id,
         entity_type: 'product',
@@ -279,7 +279,7 @@
     $('.remove').click((e) => {
       e.preventDefault()
       console.log('remove id:', interestObj.id)
-      interestjs.interests.remove(interestObj.id).then((data) => {
+      monolythic.interests.remove(interestObj.id).then((data) => {
         console.log('remove', data)
         toggleAdd('remove')
       }).catch((e) => {
@@ -308,7 +308,7 @@
     $('.rateit').click(function (e) {
       e.preventDefault()
       if (rateObj.value === 0) {
-        interestjs.interests.add('rate', {
+        monolythic.interests.add('rate', {
           account_customer_id: customerObj.id,
           entity_id: interestObj.entity_id,
           entity_type: 'product',
@@ -325,7 +325,7 @@
           console.log(e)
         })
       } else {
-        interestjs.interests.update(rateObj.id, {
+        monolythic.interests.update(rateObj.id, {
           metadata: JSON.stringify({
             rate: $(this).data('rate')
           })

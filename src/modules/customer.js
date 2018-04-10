@@ -1,7 +1,17 @@
 import FacadeCustomer from '@facades/customer'
 
 export default (config, opts) => {
-  let session = window.sessionStorage
+  // var _window = this.window || {}
+  // let session = (_window || {}).sessionStorage || {
+  //   setItem: () => {},
+  //   getItem: () => {},
+  //   removeItem: () => {}
+  // }
+  let session = {
+    setItem: () => {},
+    getItem: () => {},
+    removeItem: () => {}
+  }
   return {
     identify: (customer) => {
       if (session.getItem('InterestCustomer')) {
