@@ -133,7 +133,7 @@
 
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
   <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
-  <script src="http://localhost:8081/bundle.js"></script>
+  <script src="http://localhost:8080/bundle.js"></script>
   <script type="text/javascript">
     // vars
     var $ = window.jQuery
@@ -204,7 +204,7 @@
     $('.logoff').click((e) => {
       e.preventDefault()
       interestjs.customer.unidentify()
-      tomer({})
+      setCustomer({})
       setRateClass(0, 'rated')
       toggleAdd('remove')
       retrieveList()
