@@ -1,6 +1,6 @@
 {
   "name": "monolythic-sdk-js",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "An open-source SDK to use with interest",
   "main": "dist/monolythic.commonjs2.node.js",
   "scripts": {
