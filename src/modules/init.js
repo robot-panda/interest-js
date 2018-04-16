@@ -1,7 +1,6 @@
 import FacadeAccount from '@facades/account'
 export default (config, opts) => {
   return FacadeAccount(config).get_account({
-    id: opts.account_id,
     token: opts.token,
     metadata: opts.metadata
   }).then((account) => {
