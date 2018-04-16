@@ -7,7 +7,7 @@ export default (config) => {
       return axios.get(`${path}/list`)
     },
     get_account: (account) => {
-      return axios.get(`${path}/list?id=${account.id}&token=${account.token}`)
+      return axios.get(`${path}/list?token=${account.token}`)
     },
     add_interest: (email, pass) => {
       return axios({
