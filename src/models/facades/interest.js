@@ -22,6 +22,8 @@ export default (config) => {
           entity_name: interest.entity_name,
           entity_type: interest.entity_type,
           entity_category: interest.entity_category,
+          entity_image_url: interest.entity_image_url,
+          entity_url: interest.entity_url,
           metadata: interest.metadata
         },
         headers: {
